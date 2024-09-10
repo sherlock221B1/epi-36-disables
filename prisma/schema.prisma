@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model Menus{
+  id Int @id @default(autoincrement())
+  name String
+  price Int? @default(0)
+  menusCategoriesAndMenus MenusCategoriesAndMenus[]
+  addonCategoriesAndMenus AddonCategoriesAndMenus[]
+  disableMenusAndLocations DisableMenusAndLocations[]
+}
+
+model MenusCategories{
+  id Int @id @default(autoincrement())
+  name String
+  menusCategoriesAndMenus MenusCategoriesAndMenus[]
+  companyId Int
+  company Company @relation(fields: [companyId],references: [id])
+  disableMenuCategoriesAndLocations DisableMenuCategoriesAndLocations[]
+}
+
+model MenusCategoriesAndMenus {
+  id Int @id @default(autoincrement())
+  menuId Int
+  Menus Menus @relation(fields: [menuId], references: [id])
+  menuCategoryIds Int
+  MenusCategories MenusCategories @relation(fields: [menuCategoryIds],references: [id])
+}
+
+
+model AddonCategories{
+  id Int @id @default(autoincrement())
+  name String
+  isRequired Boolean @default(false)
+  addonCategoriesAndMenus AddonCategoriesAndMenus[]
+  addons Addons[]
+}
+
+model AddonCategoriesAndMenus{
+  id Int @id @default(autoincrement())
+  menuId Int
+  menus Menus @relation(fields: [menuId],references: [id])
+  addonCategoryId Int
+  addonCategories AddonCategories @relation(fields: [addonCategoryId],references: [id])
+}
+
+model Addons{
+  id Int @id @default(autoincrement())
+  name String
+  price Int @default(0)
+  isAvailable Boolean @default(true)
+  addonCategoryId Int
+  addonCategories AddonCategories @relation(fields: [addonCategoryId],references: [id])
+}
+
+model Company{
+  id Int @id @default(autoincrement())
+  name String
+  users Users[]
+  locations Locations[]
+  menuCategories MenusCategories[]
+}
+
+model Users{
+  id Int @id @default(autoincrement())
+  name String
+  email String
+  companyId Int
+  company Company @relation(fields: [companyId],references: [id])
+
+  userAndSelectedLocation UserAndSelectedLocation[]
+}
+
+model Locations{
+  id Int @id @default(autoincrement())
+  name String
+  companyId Int
+  company Company @relation(fields: [companyId],references: [id])
+  tables Tables[]
+  userAndSelectedLocation UserAndSelectedLocation[]
+  disableMenusAndLocations DisableMenusAndLocations[]
+  disableMenuCategoriesAndLocations DisableMenuCategoriesAndLocations[]
+}
+
+model Tables{
+  id Int @id @default(autoincrement())
+  name String
+  locationId Int
+  locattion Locations @relation(fields: [locationId],references: [id])
+}
+
+model UserAndSelectedLocation{
+  id Int @id @default(autoincrement())
+  userId Int
+  users Users @relation(fields: [userId],references: [id])
+  locationId Int
+  locations Locations @relation(fields: [locationId],references: [id])
+}
+
+model DisableMenusAndLocations{
+  id Int @id @default(autoincrement())
+  menuId Int
+  menus Menus @relation(fields: [menuId],references: [id])
+  locationId Int
+  locations Locations @relation(fields: [locationId],references: [id])
+}
+model DisableMenuCategoriesAndLocations{
+  id Int @id @default(autoincrement())
+  menuCategoryId Int
+  menuCategories MenusCategories @relation(fields: [menuCategoryId],references: [id])
+  locationId Int
+  locations Locations @relation(fields: [locationId],references: [id])
+}
