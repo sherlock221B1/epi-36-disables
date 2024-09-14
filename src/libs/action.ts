@@ -5,6 +5,7 @@ import { prisma } from "./prisma";
 import { Addons, MenusCategories } from "@prisma/client";
 import exp from "constants";
 import { it } from "node:test";
+import { createQrcodeImageUrl } from "@/app/backoffice/tables/action";
 
 export async function createDefaultData(nextUser: User) {
   const { name, email } = nextUser;
@@ -51,7 +52,17 @@ export async function createDefaultData(nextUser: User) {
   });
 
   const table = await prisma.tables.create({
-    data: { name: "Defatult Table", locationId: location.id },
+    data: {
+      name: "Defatult Table",
+      locationId: location.id,
+      qrCodeImageUrl: "",
+    },
+  });
+
+  const url = await createQrcodeImageUrl(table);
+  await prisma.tables.update({
+    data: { ...table, qrCodeImageUrl: url },
+    where: { id: table.id },
   });
 
   await prisma.userAndSelectedLocation.create({
@@ -88,6 +99,7 @@ export async function getMenuCategoriesByCompanyId() {
   const companyId = await getCompanyId();
   const menuCategories = await prisma.menusCategories.findMany({
     where: { companyId },
+    include: { disableMenuCategoriesAndLocations: true },
     orderBy: { id: "asc" },
   });
 

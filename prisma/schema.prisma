@@ -96,6 +96,7 @@ model Locations{
 model Tables{
   id Int @id @default(autoincrement())
   name String
+  qrCodeImageUrl String
   locationId Int
   locattion Locations @relation(fields: [locationId],references: [id])
 }

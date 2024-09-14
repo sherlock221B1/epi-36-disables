@@ -1,12 +1,17 @@
 import ItemCard from "@/components/ItemCard";
-import { getMenuCategoriesByCompanyId } from "@/libs/action";
+import {
+  getCurrentLocationId,
+  getMenuCategoriesByCompanyId,
+} from "@/libs/action";
 import { Box, Button, Link } from "@mui/material";
 import { MenusCategories } from "@prisma/client";
 import CategoryIcon from "@mui/icons-material/Category";
+import { green, red } from "@mui/material/colors";
 
 export default async function MenusCategoriesPage() {
-  const menuCategories: MenusCategories[] =
-    await getMenuCategoriesByCompanyId();
+  const menuCategories = await getMenuCategoriesByCompanyId();
+
+  const currentLocationId = await getCurrentLocationId();
 
   if (menuCategories.length === 0) {
     return (
@@ -94,13 +99,28 @@ export default async function MenusCategoriesPage() {
         }}
       >
         {menuCategories.map((menuCategory) => {
+          const menuCategoryIsNotAvailable =
+            menuCategory.disableMenuCategoriesAndLocations.find(
+              (item) =>
+                item.menuCategoryId === menuCategory.id &&
+                item.locationId === currentLocationId
+            );
+
           return (
-            <ItemCard
+            <Box
               key={menuCategory.id}
-              href={`/backoffice/menu-categories/${menuCategory.id}`}
-              name={menuCategory.name}
-              icon={<CategoryIcon fontSize="large" />}
-            />
+              sx={
+                menuCategoryIsNotAvailable
+                  ? { opacity: "0.4" }
+                  : { opacity: "1" }
+              }
+            >
+              <ItemCard
+                href={`/backoffice/menu-categories/${menuCategory.id}`}
+                name={menuCategory.name}
+                icon={<CategoryIcon fontSize="large" />}
+              />
+            </Box>
           );
         })}
       </Box>

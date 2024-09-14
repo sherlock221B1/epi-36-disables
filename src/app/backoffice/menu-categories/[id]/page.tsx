@@ -1,6 +1,13 @@
 import { prisma } from "@/libs/prisma";
-import { Box, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+} from "@mui/material";
 import { deleteMenuCategory, updatingMenuCategory } from "../action";
+import { getCurrentLocationId } from "@/libs/action";
 
 interface Props {
   params: {
@@ -12,7 +19,17 @@ export default async function UpdatingMenuCategories({ params }: Props) {
 
   const menuCategoryToBeUpdate = await prisma.menusCategories.findFirst({
     where: { id: id },
+    include: { disableMenuCategoriesAndLocations: true },
   });
+
+  const currentLocationId = await getCurrentLocationId();
+  const isCurrentNotAvailableMenuCategory =
+    menuCategoryToBeUpdate?.disableMenuCategoriesAndLocations.find(
+      (item) =>
+        item.menuCategoryId === menuCategoryToBeUpdate.id &&
+        item.locationId === currentLocationId
+    );
+
   return (
     <Box
       sx={{
@@ -54,8 +71,27 @@ export default async function UpdatingMenuCategories({ params }: Props) {
               name="updatedMenuCategoryName"
             />
           </Box>
-          <input type="hidden" value={id} name="menuCategoryId" />
+          <Box>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  defaultChecked={
+                    isCurrentNotAvailableMenuCategory ? false : true
+                  }
+                  name="isAvailable"
+                />
+              }
+              label="Is Available"
+              sx={{ color: "#023047" }}
+            />
+          </Box>
 
+          <input type="hidden" value={id} name="menuCategoryId" />
+          <input
+            type="hidden"
+            value={isCurrentNotAvailableMenuCategory?.id}
+            name="isCurrentNotAvailableMenuCategory"
+          />
           <Button
             type="submit"
             variant="contained"

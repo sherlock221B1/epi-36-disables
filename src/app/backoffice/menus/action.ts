@@ -76,10 +76,7 @@ export async function updatingMenu(formData: FormData) {
       });
     }
   } else {
-    {
-      !isCurrentNotAvailableMenu;
-    }
-    {
+    if (!isCurrentNotAvailableMenu) {
       const currentLocationId = (await getCurrentLocationId()) as number;
       await prisma.disableMenusAndLocations.create({
         data: { menuId, locationId: currentLocationId },
@@ -94,6 +91,7 @@ export async function deleteMenu(formData: FormData) {
 
   await prisma.menusCategoriesAndMenus.deleteMany({ where: { menuId } });
   await prisma.addonCategoriesAndMenus.deleteMany({ where: { menuId } });
+  await prisma.disableMenusAndLocations.deleteMany({ where: { menuId } });
   await prisma.menus.delete({
     where: { id: menuId },
   });

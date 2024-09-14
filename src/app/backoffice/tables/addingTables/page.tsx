@@ -2,7 +2,7 @@ import { Box, Button, TextField } from "@mui/material";
 import { addingTable } from "../action";
 import { getCurrentLocationId } from "@/libs/action";
 
-export default async function AddingMenus() {
+export default async function AddingTables() {
   const currentLocationId = await getCurrentLocationId();
   return (
     <Box

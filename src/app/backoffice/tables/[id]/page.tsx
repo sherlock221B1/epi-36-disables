@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { getLocationsByCompanyId } from "@/libs/action";
 import { deleteTable, updatingTable } from "../action";
+import QrCodeImage from "@/components/QrCodeImage";
 
 interface Props {
   params: {
@@ -69,6 +70,9 @@ export default async function UpdatingTable({ params }: Props) {
             width: "100%",
           }}
         >
+          <QrCodeImage
+            qrCodeImageUrl={tableToBeUpdatedOrDeleted.qrCodeImageUrl}
+          />
           <Box sx={{ bgcolor: "white", width: "100%", borderRadius: "8px" }}>
             <TextField
               name="name"
