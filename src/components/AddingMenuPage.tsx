@@ -8,9 +8,14 @@ import {
   CircularProgress,
   FormControlLabel,
   TextField,
+<<<<<<< HEAD
   Typography,
 } from "@mui/material";
 import { AddonCategories, MenusCategories } from "@prisma/client";
+=======
+} from "@mui/material";
+import { MenusCategories } from "@prisma/client";
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
 import { upload } from "@vercel/blob/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -18,12 +23,17 @@ import toast from "react-hot-toast";
 
 interface Props {
   menuCategories: MenusCategories[];
+<<<<<<< HEAD
   addonCategories: AddonCategories[];
 }
 export default function AddingMenuPage({
   menuCategories,
   addonCategories,
 }: Props) {
+=======
+}
+export default function AddingMenuPage({ menuCategories }: Props) {
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   return (
@@ -46,11 +56,16 @@ export default function AddingMenuPage({
         }
 
         const response = await addingMenu(formData);
+<<<<<<< HEAD
         if (response.errors) {
           response.errors.map((error) => {
             toast.error(error.message);
           });
 
+=======
+        if (response.error) {
+          toast.error(response.error);
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
           setLoading(false);
         } else {
           setLoading(false);
@@ -70,8 +85,11 @@ export default function AddingMenuPage({
           width: "100%",
         }}
       >
+<<<<<<< HEAD
         <h1 style={{ marginBottom: "20px" }}>Adding Menu</h1>
 
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
         <Box sx={{ bgcolor: "white", width: "100%", borderRadius: "8px" }}>
           <TextField
             name="name"
@@ -98,14 +116,20 @@ export default function AddingMenuPage({
             sx={{ width: "100%" }}
           />
         </Box>
+<<<<<<< HEAD
         <Typography>Menu Categories</Typography>
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
         <Box
           sx={{
             display: "flex",
             bgcolor: "white",
             px: 1.5,
             py: 1,
+<<<<<<< HEAD
             mb: 2,
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
             borderRadius: "5px",
           }}
         >
@@ -118,6 +142,7 @@ export default function AddingMenuPage({
             />
           ))}
         </Box>
+<<<<<<< HEAD
 
         <Typography>Addon Categories</Typography>
         <Box
@@ -139,6 +164,8 @@ export default function AddingMenuPage({
           ))}
         </Box>
 
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
         <TextField
           type="file"
           name="file"

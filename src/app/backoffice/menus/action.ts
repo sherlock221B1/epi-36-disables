@@ -8,9 +8,13 @@ import { put } from "@vercel/blob";
 import { boolean, number, string, z } from "zod";
 
 const FormSchema = z.object({
+<<<<<<< HEAD
   id: z
     .number()
     .min(1, { message: "menuId is missing or menuId must be number" }),
+=======
+  id: z.number({ message: "menuId is missing or menuId must be number" }),
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
   name: z
     .string()
     .min(1, { message: "Name must be at least 1 character long" }), // ensures name length is > 0,
@@ -38,12 +42,16 @@ export async function addingMenu(formData: FormData) {
     const isAvailable = formData.get("isAvailable") ? true : false;
     const imageUrl = formData.get("imageUrl") as string;
 
+<<<<<<< HEAD
     const selectedAddonCategoryIds = formData.getAll("addonCategoryId");
 
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
     const addedMenu = await prisma.menus.create({
       data: { name, price, imageUrl: imageUrl ? imageUrl : "" },
     });
 
+<<<<<<< HEAD
     //adding menusCategoriesAndMenus
     const dataForMenuCategoriesAndMenus: any = selectedMenuCategoryIds.map(
       (id) => ({
@@ -65,6 +73,13 @@ export async function addingMenu(formData: FormData) {
     await prisma.addonCategoriesAndMenus.createMany({
       data: dataForAddonCategoriesAndMenus,
     });
+=======
+    const data: any = selectedMenuCategoryIds.map((id) => ({
+      menuId: addedMenu.id,
+      menuCategoryIds: Number(id),
+    }));
+    await prisma.menusCategoriesAndMenus.createMany({ data: data });
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
 
     if (!isAvailable) {
       const currentLocationId = (await getCurrentLocationId()) as number;
@@ -74,6 +89,7 @@ export async function addingMenu(formData: FormData) {
     }
   } catch (err) {
     if (err instanceof z.ZodError) {
+<<<<<<< HEAD
       return { errors: err.errors };
     } else {
       return {
@@ -81,6 +97,12 @@ export async function addingMenu(formData: FormData) {
           { message: "Something went wrong! Please contact our support team" },
         ],
       };
+=======
+      const errorMessage = err.errors.map((error) => error.message).join(",");
+      return { error: errorMessage };
+    } else {
+      return { error: "Something went wrong! Please contact our support team" };
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
     }
   }
   return { error: null };
@@ -93,6 +115,7 @@ export async function updatingMenu(formData: FormData) {
         name: formData.get("name"),
         selectedMenuCategoryIds: formData.getAll("menuCategoryId"),
       });
+<<<<<<< HEAD
 
     const price = Number(formData.get("price"));
     const isAvailable = formData.get("isAvailable") ? true : false;
@@ -101,6 +124,13 @@ export async function updatingMenu(formData: FormData) {
     const updatedMenuCategoryIds = selectedMenuCategoryIds;
     const updatedAddonCategoryIds = formData.getAll("addonCategoryId");
 
+=======
+    const price = Number(formData.get("price"));
+    const isAvailable = formData.get("isAvailable") ? true : false;
+    const menuId = Number(formData.get("menuId"));
+
+    const updatedMenuCategoryIds = selectedMenuCategoryIds;
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
     const isCurrentNotAvailableMenu = Number(
       formData.get("isCurrentNotAvailableMenu")
     );
@@ -119,16 +149,25 @@ export async function updatingMenu(formData: FormData) {
       });
     }
 
+<<<<<<< HEAD
     //Updating MenuCategories
     const previousMenuCategoriesAndMenus =
       await prisma.menusCategoriesAndMenus.findMany({ where: { menuId } });
 
+=======
+    const previousMenuCategoriesAndMenus =
+      await prisma.menusCategoriesAndMenus.findMany({ where: { menuId } });
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
     const previousMenuCategoryIds = previousMenuCategoriesAndMenus.map(
       (item) => item.menuCategoryIds
     );
 
     const isSameMenuCategoryIds =
+<<<<<<< HEAD
       updatedMenuCategoryIds.length === previousMenuCategoryIds.length &&
+=======
+      updatedMenuCategoryIds.length === previousMenuCategoriesAndMenus.length &&
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
       updatedMenuCategoryIds.every((id) =>
         previousMenuCategoryIds.includes(Number(id))
       );
@@ -145,6 +184,7 @@ export async function updatingMenu(formData: FormData) {
       await prisma.menusCategoriesAndMenus.createMany({ data: data });
     }
 
+<<<<<<< HEAD
     //Updating Addon Categoreis
     const previousAddonCategoriesAndMenus =
       await prisma.addonCategoriesAndMenus.findMany({ where: { menuId } });
@@ -171,6 +211,8 @@ export async function updatingMenu(formData: FormData) {
       await prisma.addonCategoriesAndMenus.createMany({ data: data });
     }
 
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
     if (isAvailable) {
       if (isCurrentNotAvailableMenu) {
         await prisma.disableMenusAndLocations.delete({

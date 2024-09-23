@@ -68,8 +68,11 @@ export default async function UpdatingMenu({ params }: Props) {
       menuToBeUpdatedOrDeleted={menuToBeUpdatedOrDeleted}
       menuCategories={menuCategories}
       selectedMenuCategoryIds={selectedMenuCategoryIds}
+<<<<<<< HEAD
       addonCategories={addonCategories}
       selectedAddonCategoryIds={selectedAddonCategoryIds}
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
       isCurrentNotAvailableMenu={isCurrentNotAvailableMenu}
     />
   );

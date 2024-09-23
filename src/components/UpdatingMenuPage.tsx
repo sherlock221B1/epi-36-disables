@@ -7,10 +7,15 @@ import {
   Checkbox,
   FormControlLabel,
   TextField,
+<<<<<<< HEAD
   Typography,
 } from "@mui/material";
 import {
   AddonCategories,
+=======
+} from "@mui/material";
+import {
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
   DisableMenusAndLocations,
   Menus,
   MenusCategories,
@@ -23,9 +28,13 @@ interface Props {
   menuId: number;
   menuToBeUpdatedOrDeleted: Menus;
   menuCategories: MenusCategories[];
+<<<<<<< HEAD
   addonCategories: AddonCategories[];
   selectedMenuCategoryIds: number[] | undefined;
   selectedAddonCategoryIds: number[] | undefined;
+=======
+  selectedMenuCategoryIds: number[] | undefined;
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
   isCurrentNotAvailableMenu: DisableMenusAndLocations | undefined;
 }
 
@@ -34,8 +43,11 @@ export default function UpdatingMenuPage({
   menuToBeUpdatedOrDeleted,
   menuCategories,
   selectedMenuCategoryIds,
+<<<<<<< HEAD
   addonCategories,
   selectedAddonCategoryIds,
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
   isCurrentNotAvailableMenu,
 }: Props) {
   const router = useRouter();
@@ -141,14 +153,20 @@ export default function UpdatingMenuPage({
               }
             />
           </Box>
+<<<<<<< HEAD
           <Typography>MenuCategories</Typography>
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
           <Box
             sx={{
               display: "flex",
               bgcolor: "white",
               px: 1.5,
               py: 1,
+<<<<<<< HEAD
               mb: 2,
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
               borderRadius: "5px",
             }}
           >
@@ -169,6 +187,7 @@ export default function UpdatingMenuPage({
               />
             ))}
           </Box>
+<<<<<<< HEAD
 
           <Typography>AddonCategories</Typography>
           <Box
@@ -198,6 +217,8 @@ export default function UpdatingMenuPage({
             ))}
           </Box>
 
+=======
+>>>>>>> 0b97d4fbb38ad7597ced3eff4e5fd0abbb5ab044
           <img
             src={imageUrl}
             style={{
