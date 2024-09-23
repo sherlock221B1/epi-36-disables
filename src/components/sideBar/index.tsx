@@ -80,7 +80,7 @@ export default function SideBar() {
     bgcolor: "#023047",
     color: "#8ecae6",
     width: "15vw",
-    height: "100vh",
+    minHeight: "100vh",
     padding: "0",
   };
   return (

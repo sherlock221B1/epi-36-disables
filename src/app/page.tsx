@@ -47,7 +47,7 @@ export default function Home() {
             Backoffice
           </Button>
         </Link>
-        <Link href={"/orders"}>
+        <Link href={"/order"}>
           {" "}
           <Button
             variant="contained"

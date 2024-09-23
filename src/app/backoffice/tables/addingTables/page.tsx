@@ -29,6 +29,7 @@ export default async function AddingTables() {
             sx={{ width: "100%" }}
           />
         </Box>
+
         <input type="hidden" name="locationId" value={currentLocationId} />
         <Button
           type="submit"

@@ -53,7 +53,8 @@ export async function deleteMenuCategory(formData: any) {
     where: { menuCategoryId },
   });
 
-  await prisma.menusCategories.delete({
+  await prisma.menusCategories.update({
+    data: { isArchived: true },
     where: { id: menuCategoryId },
   });
   redirect("/backoffice/menu-categories");

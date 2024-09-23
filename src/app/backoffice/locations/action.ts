@@ -53,6 +53,9 @@ export async function updatingLocation(formData: FormData) {
 export async function deleteLocation(formData: FormData) {
   const locationId = Number(formData.get("locationId"));
 
-  await prisma.locations.delete({ where: { id: locationId } });
+  await prisma.locations.update({
+    data: { isArchived: true },
+    where: { id: locationId },
+  });
   redirect("/backoffice/locations");
 }

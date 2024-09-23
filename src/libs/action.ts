@@ -26,7 +26,9 @@ export async function createDefaultData(nextUser: User) {
     data: { name: "Default MenuCategory", companyId: company.id },
   });
 
-  const menu = await prisma.menus.create({ data: { name: "Default Menu" } });
+  const menu = await prisma.menus.create({
+    data: { name: "Default Menu", imageUrl: "" },
+  });
 
   const menuCategoriesAndMenus = await prisma.menusCategoriesAndMenus.create({
     data: { menuId: menu.id, menuCategoryIds: menuCategory.id },
@@ -98,7 +100,7 @@ export async function getUserId() {
 export async function getMenuCategoriesByCompanyId() {
   const companyId = await getCompanyId();
   const menuCategories = await prisma.menusCategories.findMany({
-    where: { companyId },
+    where: { companyId, isArchived: false },
     include: { disableMenuCategoriesAndLocations: true },
     orderBy: { id: "asc" },
   });
@@ -117,7 +119,7 @@ export async function getMenusByCompanyId() {
   const menuIds = menuCategoriesAndMenus.map((item) => item.menuId);
 
   const menus = await prisma.menus.findMany({
-    where: { id: { in: menuIds } },
+    where: { id: { in: menuIds }, isArchived: false },
     include: { disableMenusAndLocations: true },
     orderBy: { id: "asc" },
   });
@@ -137,7 +139,7 @@ export async function getAddonCategoriesByCompanyId() {
   );
 
   const addonCategories = await prisma.addonCategories.findMany({
-    where: { id: { in: addonCategoryIds } },
+    where: { id: { in: addonCategoryIds }, isArchived: false },
     orderBy: { id: "asc" },
   });
   return addonCategories;
@@ -148,7 +150,7 @@ export async function getAddonsByCompanyId() {
   const addonCategoryIds = addonCategories.map((item) => item.id);
 
   const addons = await prisma.addons.findMany({
-    where: { addonCategoryId: { in: addonCategoryIds } },
+    where: { addonCategoryId: { in: addonCategoryIds }, isArchived: false },
     orderBy: { id: "asc" },
   });
   return addons;
@@ -157,7 +159,7 @@ export async function getAddonsByCompanyId() {
 export async function getLocationsByCompanyId() {
   const companyId = await getCompanyId();
   const locations = await prisma.locations.findMany({
-    where: { companyId },
+    where: { companyId, isArchived: false },
     orderBy: { id: "asc" },
   });
   return locations;
@@ -168,7 +170,7 @@ export async function getTablesByCompanyId() {
   const locationIds = locations.map((item) => item.id);
 
   const tables = await prisma.tables.findMany({
-    where: { locationId: { in: locationIds } },
+    where: { locationId: { in: locationIds }, isArchived: false },
     orderBy: { id: "asc" },
   });
 
@@ -179,7 +181,7 @@ export async function getTablesByLocationId() {
   const currentLocationId = (await getCurrentLocationId()) as number;
 
   const tables = await prisma.tables.findMany({
-    where: { locationId: currentLocationId },
+    where: { locationId: currentLocationId, isArchived: false },
     orderBy: { id: "asc" },
   });
 
